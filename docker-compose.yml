@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/development/web/Dockerfile
+    ports:
+      - 3020:80
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/development/app/Dockerfile
+    volumes:
+      - .:/var/www/app
+      - gem_cache:/gems
+    env_file:
+      - docker/development/.env/app
+
+volumes:
+  gem_cache:
